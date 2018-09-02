@@ -1,5 +1,11 @@
 package com.haroon.rest.dao;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
+import com.haroon.rest.representation.Employee;
+
 public class EmployeeDB {
 	
 	public static HashMap<Integer, Employee> employees = new HashMap();
@@ -11,14 +17,14 @@ public class EmployeeDB {
 	}
 	
 	public static List<Employee> getEmployees(){
-		return new ArrayList<Employee>(employees.value());
+		return new ArrayList<Employee>(employees.values());
 	}
 	
 	public static Employee getEmployee(Integer id) {
-		return employee.get(id);
+		return employees.get(id);
 	}
 	
-	public static void updateemployee(Integer id, Employee employee) {
+	public static void updateEmployee(Integer id, Employee employee) {
 		employees.put(id, employee);
 	}
 	

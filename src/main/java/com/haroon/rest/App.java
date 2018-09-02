@@ -3,6 +3,8 @@ package com.haroon.rest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.haroon.rest.controller.EmployeeRESTController;
+
 import io.dropwizard.Application;
 import io.dropwizard.Configuration;
 import io.dropwizard.setup.Bootstrap;
