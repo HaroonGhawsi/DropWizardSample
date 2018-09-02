@@ -3,6 +3,8 @@ package com.haroon.rest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.haroon.rest.controller.EmployeeRESTController;
+
 import io.dropwizard.Application;
 import io.dropwizard.Configuration;
 import io.dropwizard.setup.Bootstrap;
@@ -20,6 +22,12 @@ public class App extends Application<Configuration> {
 	@Override
 	public void run(Configuration c, Environment e) throws Exception {
 		LOGGER.info("Registering REST resources");
+		
+		/*
+		 * Injecting Environment.getValidator() in REST resource from Application.
+		 * 
+		 */
+		
 		e.jersey().register(new EmployeeRESTController(e.getValidator()));
 	}
 	

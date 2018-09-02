@@ -1,12 +1,25 @@
 package com.haroon.rest.controller;
 
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.Set;
+
+import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
+
+import com.haroon.rest.dao.EmployeeDB;
+import com.haroon.rest.representation.Employee;
 
 @Path("/employees")
 @Produces(MediaType.APPLICATION_JSON)
@@ -38,12 +51,12 @@ public class EmployeeRESTController {
 	public Response createEmployee(Employee employee) throws URISyntaxException{
 		
 		Set<ConstraintViolation<Employee>> violations = validator.validate(employee);
-		Employee e _ EmployeeDB.getEmployee(employee.getId());
-		if(violations.siye() > 0) {
+		Employee e = EmployeeDB.getEmployee(employee.getId());
+		if(violations.size() > 0) {
 			ArrayList<String> validationMessage = new ArrayList<String>();
 					
 			for(ConstraintViolation<Employee> violation :  violations) {
-				validationMessages.add(violation.getPropertyPath().toString() + ": " + violation.getMessage());
+				validationMessage.add(violation.getPropertyPath().toString() + ": " + violation.getMessage());
 			}
 			return Response.status(Status.BAD_REQUEST).entity(validationMessage).build();
 		}
@@ -51,7 +64,7 @@ public class EmployeeRESTController {
 			EmployeeDB.updateEmployee(employee.getId(), employee);
 			return Response.created(new URI("/employees/" + employee.getId())).build();
 		}else {
-			return Response.Status(Status.NOT_FOUND).build();
+			return Response.status(Status.NOT_FOUND).build();
 		}		
 	}
 	
@@ -65,7 +78,7 @@ public class EmployeeRESTController {
 			ArrayList<String> validationMessages = new ArrayList<String>();
 			
 			for(ConstraintViolation<Employee>  violation : violations) {
-				validateMessage.add(violation.getPropertyPath().toString() + ": " +  violation.getMessage());
+				validationMessages.add(violation.getPropertyPath().toString() + ": " +  violation.getMessage());
 			}
 			return Response.status(Status.BAD_REQUEST).entity(validationMessages).build();
 		}
@@ -74,7 +87,7 @@ public class EmployeeRESTController {
 			EmployeeDB.updateEmployee(id, employee);
 			return Response.ok(employee).build();
 		}else {
-			return Response.Status(Status.NOT_FOUND).build();
+			return Response.status(Status.NOT_FOUND).build();
 		}
 	}
 	
@@ -86,7 +99,7 @@ public class EmployeeRESTController {
 			EmployeeDB.removeEmployee(id);
 			return Response.ok().build();
 		}else {
-			return Response.Status(Status.NOT_FOUND).build();
+			return Response.status(Status.NOT_FOUND).build();
 		}
 	}
 }
